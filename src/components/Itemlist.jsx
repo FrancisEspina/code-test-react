@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Spinner from "../components/Spinner/Spinner";
 import InfiniteScroll from "react-infinite-scroll-component";
-// Create some dummy data with IDs or indexes
 import axios from "axios";
 
 const LIMIT = 10;

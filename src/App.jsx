@@ -13,8 +13,17 @@ function App() {
   return (
     <div className="App">
       <div className="container">
-        <div className="launch">
-          <div className="search">
+        <div className="launch relative">
+          <div
+            className="search"
+            style={{
+              position: "sticky",
+              top: 50, // 👈 required for sticky to work!
+              zIndex: 100,
+              width: "100%",
+              backgroundColor: "white", // optional: to avoid content showing behind it
+            }}
+          >
             <SearchInput onSearch={handleSearch} />
           </div>
           <div class="launch__wrapper">
