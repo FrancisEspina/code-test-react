@@ -26,8 +26,10 @@ function App() {
           >
             <SearchInput onSearch={handleSearch} />
           </div>
-          <div class="launch__wrapper">
-            <Itemlist searched={searchTerm} />
+          <div className="fade">
+            <div class="launch__wrapper">
+              <Itemlist searched={searchTerm} />
+            </div>
           </div>
         </div>
       </div>

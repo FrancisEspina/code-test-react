@@ -72,7 +72,7 @@ const Itemlist = ({ data, isLoading, searched }) => {
             >
               {filteredLaunches &&
                 filteredLaunches.map((launch, index) => (
-                  <div key={index} className="launch__item">
+                  <div key={index} className="launch__item ">
                     <div className="launch_body">
                       <div style={{ display: "flex" }}>
                         <h2>
@@ -125,7 +125,7 @@ const Itemlist = ({ data, isLoading, searched }) => {
 
 const LaunchDetails = ({ launch, open = false }) => {
   return open ? (
-    <div className="details fade">
+    <div className="details ">
       <div className="launch__meta">
         <div className="launch__meta-item">{getYearsAgo(launch.date_utc)}</div>
         {launch.links.article && (
