@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Spinner from "../components/Spinner/Spinner";
 import InfiniteScroll from "react-infinite-scroll-component";
 import axios from "axios";
-
+import { motion } from "motion/react";
 const LIMIT = 10;
 
 const Itemlist = ({ data, isLoading, searched }) => {
@@ -72,7 +72,14 @@ const Itemlist = ({ data, isLoading, searched }) => {
             >
               {filteredLaunches &&
                 filteredLaunches.map((launch, index) => (
-                  <div key={index} className="launch__item ">
+                  <motion.div
+                    initial={{ opacity: 0, y: 5 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6, ease: "easeOut" }}
+                    viewport={{ once: true, amount: 0.2 }} // triggers when 20% is in view
+                    key={index}
+                    className="launch__item "
+                  >
                     <div className="launch_body">
                       <div style={{ display: "flex" }}>
                         <h2>
@@ -113,7 +120,7 @@ const Itemlist = ({ data, isLoading, searched }) => {
                         <div>{openIndex === index ? "Hide" : "View"}</div>
                       </div>
                     </div>
-                  </div>
+                  </motion.div>
                 ))}
             </InfiniteScroll>
           </>
