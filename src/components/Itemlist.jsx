@@ -24,7 +24,7 @@ const Itemlist = ({ data, isLoading }) => {
             limit: LIMIT,
             offset: offset,
             sort: {
-              date_utc: "asc",
+              date_utc: "desc",
             },
           },
         }
@@ -113,24 +113,47 @@ const Itemlist = ({ data, isLoading }) => {
 
 const LaunchDetails = ({ launch, open = false }) => {
   return open ? (
-    <div className="details">
+    <div className="details fade">
       <div className="launch__meta">
-        <div className="launch__meta-item">12 Years Ago</div>
-        <a href={launch.links.article} className="launch__meta-item">
-          Article
-        </a>
-        <a href="" className="launch__meta-item">
-          Video
-        </a>
+        <div className="launch__meta-item">{getYearsAgo(launch.date_utc)}</div>
+        {launch.links.article && (
+          <>
+            <a href={launch.links.article} className="launch__meta-item">
+              Article
+            </a>
+            <a href={launch.links.webcast} className="launch__meta-item">
+              Video
+            </a>
+          </>
+        )}
       </div>
       <div className="media">
         <div>
-          <img src="https://picsum.photos/200" alt="" />
+          {launch.links.patch.small ? (
+            <img src={launch.links.patch.large} />
+          ) : (
+            <div className="no-content">No Image Yet</div>
+          )}
         </div>
-        <div className="launch__details">{launch.details}</div>
+        <div>
+          {launch.details ? (
+            <div className="launch__details ">{launch.details}</div>
+          ) : (
+            <>
+              <div className="no-content">No Details Yet</div>
+            </>
+          )}
+        </div>
       </div>
     </div>
   ) : null;
 };
+
+function getYearsAgo(dateString) {
+  const inputDate = new Date(dateString);
+  const now = new Date();
+  const diff = now.getFullYear() - inputDate.getFullYear();
+  return `${diff} year${diff !== 1 ? "s" : ""} ago`;
+}
 
 export default Itemlist;
