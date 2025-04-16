@@ -87,7 +87,7 @@ p {
 
 .search {
   display: block;
-  margin: 1rem auto 2rem;
+  margin: 0 auto 2rem;
 }
 
 input[type="search"] {
@@ -129,7 +129,7 @@ img {
   margin: 10vh 0;
 
   &__wrapper {
-    height: 30rem;
+    // height: 30rem;
     overflow: auto;
     padding: 0.5rem 1rem;
     text-align: center;
