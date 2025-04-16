@@ -1,9 +1,11 @@
-import React from 'react'
+import React from "react";
 
 const SearchInput = () => {
   return (
-    <div>SearchInput</div>
-  )
-}
+    <div className="">
+      <input type="search" />
+    </div>
+  );
+};
 
-export default SearchInput
+export default SearchInput;
