@@ -1,9 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 
-const SearchInput = () => {
+const SearchInput = ({ onSearch }) => {
+  const [query, setQuery] = useState("");
+
+  const handleInputChange = (e) => {
+    const value = e.target.value;
+    setQuery(value);
+    onSearch(value); // 👈 pass typed value up
+  };
+
   return (
-    <div className="">
-      <input type="search" />
+    <div>
+      <input
+        type="search"
+        value={query}
+        onChange={handleInputChange}
+        placeholder="Search launches..."
+      />
     </div>
   );
 };

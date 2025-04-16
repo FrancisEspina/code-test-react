@@ -6,7 +6,7 @@ import axios from "axios";
 
 const LIMIT = 10;
 
-const Itemlist = ({ data, isLoading }) => {
+const Itemlist = ({ data, isLoading, searched }) => {
   const [openIndex, setOpenIndex] = useState(null);
 
   const [launches, setLaunches] = useState([]);
@@ -46,33 +46,42 @@ const Itemlist = ({ data, isLoading }) => {
     fetchLaunches();
   }, []);
 
+  const filteredLaunches = launches.filter((launch) =>
+    launch.name.toLowerCase().includes(searched.toLowerCase())
+  );
+
+  if (!filteredLaunches.length) {
+    return <div>{loading ? <Spinner></Spinner> : "No Available Launches"}</div>;
+  }
   return (
-    <div className="launch__list">
-      {loading ? (
-        <>
-          <Spinner></Spinner>
-        </>
-      ) : (
-        <>
-          <InfiniteScroll
-            style={{ padding: "5px 5px" }}
-            className="launch__list"
-            next={fetchLaunches}
-            dataLength={launches.length}
-            hasMore={hasMore}
-            loader={<Spinner></Spinner>}
-            endMessage={<p>End of List</p>}
-          >
-            {launches.map((launch, index) => (
-              <div key={index} className="launch__item">
-                <div className="launch_body">
-                  <div style={{ display: "flex" }}>
-                    <h2>
-                      {launch.name} {index + 1}
-                    </h2>
-                    <div className="launch_status">
-                      <span
-                        className={`
+    <>
+      <div className="launch__list">
+        {loading ? (
+          <>
+            <Spinner></Spinner>
+          </>
+        ) : (
+          <>
+            <InfiniteScroll
+              style={{ padding: "5px 5px" }}
+              className="launch__list"
+              next={fetchLaunches}
+              dataLength={launches.length}
+              hasMore={hasMore}
+              loader={<Spinner></Spinner>}
+              endMessage={<p>End of List</p>}
+            >
+              {filteredLaunches &&
+                filteredLaunches.map((launch, index) => (
+                  <div key={index} className="launch__item">
+                    <div className="launch_body">
+                      <div style={{ display: "flex" }}>
+                        <h2>
+                          {launch.name} {index + 1}
+                        </h2>
+                        <div className="launch_status">
+                          <span
+                            className={`
                           ${
                             launch.success
                               ? "launch__status--success"
@@ -81,33 +90,37 @@ const Itemlist = ({ data, isLoading }) => {
                               : "launch__status--danger"
                           }
                         `}
+                          >
+                            {launch.success
+                              ? "Success"
+                              : launch.upcoming
+                              ? "Upcoming"
+                              : "Failed"}
+                          </span>
+                        </div>
+                      </div>
+
+                      <LaunchDetails
+                        launch={launch}
+                        open={openIndex === index}
+                      />
+
+                      <div
+                        onClick={() =>
+                          setOpenIndex(openIndex === index ? null : index)
+                        }
+                        className="btn btn--primary"
                       >
-                        {launch.success
-                          ? "Success"
-                          : launch.upcoming
-                          ? "Upcoming"
-                          : "Failed"}
-                      </span>
+                        <div>{openIndex === index ? "Hide" : "View"}</div>
+                      </div>
                     </div>
                   </div>
-
-                  <LaunchDetails launch={launch} open={openIndex === index} />
-
-                  <div
-                    onClick={() =>
-                      setOpenIndex(openIndex === index ? null : index)
-                    }
-                    className="btn btn--primary"
-                  >
-                    <div>{openIndex === index ? "Hide" : "View"}</div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </InfiniteScroll>
-        </>
-      )}
-    </div>
+                ))}
+            </InfiniteScroll>
+          </>
+        )}
+      </div>
+    </>
   );
 };
 
